@@ -95,14 +95,14 @@ def request_timetable(cfg, data:Optional[Dict]):
 def main():
     cfg = get_cfg()
     html_file = request_timetable(cfg,data=None)
-    data = get_attendance_info(html_file)
     
     while True:
+        data = get_attendance_info(html_file)
         hour = str(datetime.datetime.now())[11:13]
         for d in data:
             if hour==d['registerstartdatetime'][11:13]:
-                r = request_timetable(cfg,data)
-                print(f"attend registered: {data['activitydesc']}")
+                r = request_timetable(cfg,d)
+                print(f"attend registered: {d['activitydesc']}")
         #print(hour)
         time.sleep(1200)
     
