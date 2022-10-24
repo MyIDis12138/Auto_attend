@@ -1,5 +1,7 @@
+import os
 import datetime
 import time
+import pytz
 import urllib
 import http.cookiejar
 import json
@@ -16,7 +18,7 @@ def get_cfg()->Dict[str,Any]:
     return cfg
 
 def wrap_data(cfg, data:Optional[Dict]) -> Dict[str,str]:
-    today = datetime.date.today().isoformat()
+    today = datetime.date.today(tz=pytz.timezone('Europe/London')).isoformat()
     if data is None:
         dic = {
             'Username': cfg["username"],
@@ -102,7 +104,7 @@ def main():
     print('Auto attend start.')
     while True:
         data = get_attendance_info(html_file)
-        hour = str(datetime.datetime.now())[11:13]
+        hour = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')))[11:13]
         for d in data:
             if hour==d['registerstartdatetime'][11:13]:
                 r = request_timetable(cfg,d)
