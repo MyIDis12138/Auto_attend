@@ -99,6 +99,7 @@ def main():
     cfg = get_cfg()
     html_file = request_timetable(cfg,data=None)
     
+    print('Auto attend start.')
     while True:
         data = get_attendance_info(html_file)
         hour = str(datetime.datetime.now())[11:13]
@@ -106,7 +107,7 @@ def main():
             if hour==d['registerstartdatetime'][11:13]:
                 r = request_timetable(cfg,d)
                 print(f"attend registered: {d['activitydesc']}")
-        #print(hour)
+        print(hour)
         time.sleep(1200)
     
 if __name__ == '__main__':
