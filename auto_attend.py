@@ -18,7 +18,7 @@ def get_cfg()->Dict[str,Any]:
     return cfg
 
 def wrap_data(cfg, data:Optional[Dict]) -> Dict[str,str]:
-    today = datetime.date.today(tz=pytz.timezone('Europe/London')).isoformat()
+    today = datetime.date.today().isoformat()
     if data is None:
         dic = {
             'Username': cfg["username"],
