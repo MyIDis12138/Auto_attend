@@ -7,8 +7,8 @@ from typing import Dict, List, Any, Optional
 
 def get_cfg()->Dict[str,Any]:
     cfg = {
-        "username" : '',
-        "password" : ''
+        "username" : 'sgygu14',
+        "password" : 'BUAjEUk8'
     }
     return cfg
 
