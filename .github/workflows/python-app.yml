@@ -30,3 +30,6 @@ jobs:
     - name: Anto_attending
       run: |
         python ${{ github.workspace }}/auto_attend.py
+      env:
+        username: ${{secrets.USERNAME}}
+        password: ${{secrets.PASSWORD}}
