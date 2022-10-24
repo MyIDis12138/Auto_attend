@@ -5,10 +5,13 @@ import http.cookiejar
 import json
 from typing import Dict, List, Any, Optional
 
+username = os.environ['username']
+password = os.environ['password']
+
 def get_cfg()->Dict[str,Any]:
     cfg = {
-        "username" : 'sgygu14',
-        "password" : 'BUAjEUk8'
+        "username" : username,
+        "password" : password
     }
     return cfg
 
