@@ -16,4 +16,4 @@ jobs:
         python-version: 3.10
     - name: Test with pytest
       run: |
-          python auto_attendence.py
+          python auto_attend.py
