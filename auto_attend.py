@@ -100,14 +100,16 @@ def request_timetable(cfg, data:Optional[Dict]):
 def main():
     cfg = get_cfg()
     html_file = request_timetable(cfg,data=None)
+    record_time=-1
     
     print('Auto attend start.')
     while True:
         data = get_attendance_info(html_file)
         hour = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')))[11:13]
         for d in data:
-            if hour==d['registerstartdatetime'][11:13]:
+            if hour==d['registerstartdatetime'][11:13] and int(hour)>record_time
                 r = request_timetable(cfg,d)
+                record_time=int(d['registerenddatetime'][11:13])
                 print(f"attend registered: {d['activitydesc']}")
         print(hour)
         time.sleep(1200)
