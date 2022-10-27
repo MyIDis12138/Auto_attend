@@ -105,7 +105,7 @@ def main():
     print('Auto attend start.')
     while True:
         data = get_attendance_info(html_file)
-        hour = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')))[11:13]
+        hour = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')))[11:13]:
         for d in data:
             if hour==d['registerstartdatetime'][11:13] and int(hour)>record_time
                 r = request_timetable(cfg,d)
