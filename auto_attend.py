@@ -107,7 +107,7 @@ def main():
         data = get_attendance_info(html_file)
         hour = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')))[11:13]
         for d in data:
-            if hour==d['registerstartdatetime'][11:13] and int(hour)>record_time:
+            if hour==d['registerstartdatetime'][11:13] and int(hour)>=record_time:
                 r = request_timetable(cfg,d)
                 record_time=int(d['registerenddatetime'][11:13])
                 print(f"attend registered: {d['activitydesc']}")
