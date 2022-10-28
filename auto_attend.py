@@ -7,6 +7,8 @@ import http.cookiejar
 import json
 from typing import Dict, List, Any, Optional
 
+
+time_zone = pytz.timezone('Europe/London')
 username = os.environ['username']
 password = os.environ['password']
 
@@ -18,7 +20,7 @@ def get_cfg()->Dict[str,Any]:
     return cfg
 
 def wrap_data(cfg, data:Optional[Dict]) -> Dict[str,str]:
-    today = datetime.date.today().isoformat()
+    today = datetime.datetime.now(tz=time_zone).strftime('%Y/%m/%d')
     if data is None:
         dic = {
             'Username': cfg["username"],
@@ -67,17 +69,13 @@ def request_timetable(cfg, data:Optional[Dict]):
     data_dic = wrap_data(cfg,data)
     url = data_dic.pop('url')
 
-    post_data = urllib.parse.urlencode(data_dic).encode('utf-8')
-
+    login_url = 'https://timetables.liverpool.ac.uk/account?returnUrl=%2F'
     headers = {
         'User-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'}
-
-    login_url = 'https://timetables.liverpool.ac.uk/account?returnUrl=%2F'
-
+    post_data = urllib.parse.urlencode(data_dic).encode('utf-8')
     req = urllib.request.Request(login_url, headers=headers, data=post_data)
 
     cookie = http.cookiejar.CookieJar()
-
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie))
 
     try:
@@ -88,7 +86,6 @@ def request_timetable(cfg, data:Optional[Dict]):
         quit()
 
     req = urllib.request.Request(url, headers=headers, data=post_data)
-
     resp = opener.open(req)
 
     result = resp.read().decode('utf-8')
@@ -99,15 +96,15 @@ def request_timetable(cfg, data:Optional[Dict]):
 
 def main():
     cfg = get_cfg()
-    html_file = request_timetable(cfg,data=None)
     record_time=-1
     
     print('Auto attend start.')
     while True:
+        html_file = request_timetable(cfg,data=None)
         data = get_attendance_info(html_file)
-        hour = str(datetime.datetime.now(tz=pytz.timezone('Europe/London')))[11:13]
+        hour = datetime.datetime.now(tz=time_zone).strftime('%H')
         for d in data:
-            if hour==d['registerstartdatetime'][11:13] and int(hour)>=record_time:
+            if hour==d['registerstartdatetime'][11:13] and int(hour)>=record_time and d['code']!='':
                 r = request_timetable(cfg,d)
                 record_time=int(d['registerenddatetime'][11:13])
                 print(f"attend registered: {d['activitydesc']}")
