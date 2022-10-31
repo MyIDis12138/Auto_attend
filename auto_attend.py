@@ -7,7 +7,6 @@ import http.cookiejar
 import json
 from typing import Dict, List, Any, Optional
 
-
 time_zone = pytz.timezone('Europe/London')
 username = os.environ['username']
 password = os.environ['password']
