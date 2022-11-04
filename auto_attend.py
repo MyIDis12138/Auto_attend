@@ -11,6 +11,7 @@ time_zone = pytz.timezone('Europe/London')
 username = os.environ['username']
 password = os.environ['password']
 
+
 def get_cfg()->Dict[str,Any]:
     cfg = {
         "username" : username,
